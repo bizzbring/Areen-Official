@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Areen Official - Modern Artist Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #ff6b9d, #c44569, #f8b500, #ff9ff3);
+            min-height: 100vh;
+        }
+
+        /* Particle Background */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            padding: 1rem 0;
+        }
+
+        .header.scrolled {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #ff69b4, #8a2be2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover .logo-icon {
+            transform: scale(1.1);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff69b4, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border-radius: 2rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 1.5rem;
+            right: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            border-radius: 1rem;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideDown 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            text-align: center;
+            animation: fadeInUp 1s ease;
+        }
+
+        .artist-card {
+            margin-bottom: 3rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .artist-card-inner {
+            position: relative;
+            transition: transform 0.5s ease;
+        }
+
+        .artist-card-inner:hover {
+            transform: scale(1.05);
+        }
+
+        .artist-card-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #ff69b4, #8a2be2);
+            border-radius: 1.5rem;
+            filter: blur(20px);
+            opacity: 0.75;
+            transition: opacity 0.5s ease;
+        }
+
+        .artist-card-inner:hover .artist-card-bg {
+            opacity: 1;
+        }
+
+        .artist-card-content {
+            position: relative;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(16px);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .artist-image {
+            width: 100%;
+            max-width: 480px;
+            /* Increased width for better card fit */
+            height: auto;
+            background: none;
+            border-radius: 1rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+
+        .artist-info h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .artist-info p {
+            color: rgba(255, 192, 203, 1);
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff, #ffc0cb, #dda0dd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: rgba(255, 192, 203, 1);
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        @media (min-width: 640px) {
+            .hero-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        .btn-primary {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #ff69b4, #8a2be2);
+            color: white;
+            text-decoration: none;
+            border-radius: 2rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+        }
+
+        .btn-secondary {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            color: white;
+            text-decoration: none;
+            border-radius: 2rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Video Section */
+        .video-section {
+            padding: 5rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .video-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .video-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+
+        .video-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .video-title {
+            font-size: clamp(3rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff, #ffc0cb, #dda0dd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .video-description {
+            font-size: 1.25rem;
+            color: rgba(255, 192, 203, 1);
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .video-divider {
+            width: 6rem;
+            height: 0.25rem;
+            background: linear-gradient(135deg, #ff69b4, #8a2be2);
+            margin: 0 auto;
+            border-radius: 0.125rem;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            transition: all 0.5s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            cursor: pointer;
+        }
+
+        .video-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.35);
+        }
+
+        .video-thumbnail {
+            position: relative;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+        }
+
+        .video-thumbnail img,
+        .video-thumbnail iframe {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: none;
+            transition: transform 0.5s ease;
+        }
+
+        .video-card:hover .video-thumbnail img {
+            transform: scale(1.1);
+        }
+
+        .video-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+        }
+
+        .video-play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 4rem;
+            height: 4rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover .video-play-btn {
+            opacity: 1;
+        }
+
+        .video-external-icon {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 2rem;
+            height: 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover .video-external-icon {
+            opacity: 1;
+        }
+
+        .video-content {
+            padding: 1.5rem;
+        }
+
+        .video-content h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .video-card:hover .video-content h3 {
+            color: #ffc0cb;
+        }
+
+        .video-content p {
+            color: rgba(255, 192, 203, 1);
+            font-size: 0.875rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .video-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .video-watch {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 192, 203, 1);
+            font-size: 0.875rem;
+        }
+
+        .video-badge {
+            padding: 0.25rem 0.75rem;
+            background: linear-gradient(135deg, rgba(255, 105, 180, 0.2), rgba(138, 43, 226, 0.2));
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 105, 180, 0.3);
+            font-size: 0.75rem;
+            color: rgba(255, 192, 203, 1);
+        }
+
+        .video-cta {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+
+        .video-cta.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 5rem 1.5rem 1.25rem;
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .footer-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-main {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+
+        .footer-main.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .footer-header {
+            margin-bottom: 3rem;
+        }
+
+        .footer-title {
+            font-size: clamp(2.5rem, 5vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff, #ffc0cb, #dda0dd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-subtitle {
+            font-size: 1.125rem;
+            color: rgba(255, 192, 203, 1);
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideInUp 0.7s ease forwards;
+        }
+
+        .social-link:nth-child(1) {
+            animation-delay: 0ms;
+        }
+
+        .social-link:nth-child(2) {
+            animation-delay: 100ms;
+        }
+
+        .social-link:nth-child(3) {
+            animation-delay: 200ms;
+        }
+
+        .social-link:nth-child(4) {
+            animation-delay: 300ms;
+        }
+
+        .social-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .social-link.youtube:hover {
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        .social-link.instagram:hover {
+            background: rgba(255, 105, 180, 0.2);
+        }
+
+        .social-link.twitter:hover {
+            background: rgba(29, 161, 242, 0.2);
+        }
+
+        .social-link.soundcloud:hover {
+            background: rgba(255, 140, 0, 0.2);
+        }
+
+        .newsletter {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+            transition-delay: 0.3s;
+        }
+
+        .newsletter.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .newsletter-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            border-radius: 1rem;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .newsletter h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter p {
+            color: rgba(255, 192, 203, 1);
+            margin-bottom: 1.5rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 640px) {
+            .newsletter-form {
+                flex-direction: row;
+            }
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.75rem;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-input::placeholder {
+            color: rgba(255, 192, 203, 1);
+        }
+
+        .newsletter-input:focus {
+            border-color: #ff69b4;
+            box-shadow: 0 0 0 2px rgba(255, 105, 180, 0.2);
+        }
+
+        .newsletter-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #ff69b4, #8a2be2);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+            transition-delay: 0.5s;
+        }
+
+        .footer-bottom.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .copyright {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: rgba(255, 192, 203, 1);
+            margin-bottom: 0.5rem;
+        }
+
+        .heart {
+            color: #ff69b4;
+            animation: pulse 2s infinite;
+        }
+
+        .footer-tagline {
+            font-size: 0.875rem;
+            color: rgba(255, 192, 203, 0.75);
+        }
+
+        /* Background Decorations */
+        .bg-decoration {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            pointer-events: none;
+        }
+
+        .bg-decoration-1 {
+            top: 0;
+            left: 0;
+            width: 16rem;
+            height: 16rem;
+            background: linear-gradient(135deg, rgba(255, 105, 180, 0.05), transparent);
+        }
+
+        .bg-decoration-2 {
+            bottom: 0;
+            right: 0;
+            width: 24rem;
+            height: 24rem;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.05), transparent);
+        }
+
+        /* Floating Elements */
+        .floating-notes {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .floating-note {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.1;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .floating-note:nth-child(odd) {
+            animation-delay: 0s;
+        }
+
+        .floating-note:nth-child(even) {
+            animation-delay: 2s;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.1;
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 0.3;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .artist-image {
+                width: 280px;
+                height: 280px;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .social-link {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #ff69b4, #8a2be2);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #ff1493, #9932cc);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Particle Background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="nav">
+            <div class="logo">
+                <div class="logo-icon">🎵</div>
+                <h1 class="logo-text">Areen Official</h1>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link">🏠 Home</a></li>
+                <li><a href="#videos" class="nav-link">▶️ Videos</a></li>
+                <li><a href="#socials" class="nav-link">👥 Socials</a></li>
+            </ul>
+
+            <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
+
+            <div class="mobile-menu" id="mobile-menu">
+                <a href="#home" class="mobile-nav-link">🏠 Home</a>
+                <a href="#videos" class="mobile-nav-link">▶️ Videos</a>
+                <a href="#socials" class="mobile-nav-link">👥 Socials</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="artist-card">
+                <div class="artist-card-inner">
+                    <div class="artist-card-bg"></div>
+                    <div class="artist-card-content">
+                        <div class="artist-image">
+                            <img src="card.png" alt="Areen ID Card"
+                                style="width: 100%; height: auto; border-radius: 1rem;" />
+                        </div>
+
+                        <div class="artist-info">
+                            <h2>Areen Official</h2>
+                            <p>EDM • POP • Artist</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h1 class="hero-title">Areen Official</h1>
+            <p class="hero-description">
+                Creating magical moments through EDM and POP music.
+                Experience the journey through sound and emotion.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#videos" class="btn-primary">
+                    ▶️ Watch Videos
+                </a>
+                <a href="https://www.youtube.com/@AreenOfficial" target="_blank" class="btn-secondary">
+                    🔗 YouTube Channel
+                </a>
+            </div>
+        </div>
+
+        <!-- Floating Music Notes -->
+        <div class="floating-notes">
+            <div class="floating-note" style="left: 10%; top: 10%;">🎵</div>
+            <div class="floating-note" style="left: 30%; top: 20%;">🎶</div>
+            <div class="floating-note" style="left: 50%; top: 15%;">🎵</div>
+            <div class="floating-note" style="left: 70%; top: 25%;">🎶</div>
+            <div class="floating-note" style="left: 90%; top: 10%;">🎵</div>
+            <div class="floating-note" style="left: 20%; top: 80%;">🎶</div>
+            <div class="floating-note" style="left: 80%; top: 85%;">🎵</div>
+            <div class="floating-note" style="left: 60%; top: 90%;">🎶</div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section id="videos" class="video-section">
+        <div class="video-container">
+            <div class="video-header">
+                <h2 class="video-title">Featured Videos</h2>
+                <p class="video-description">
+                    Discover the musical journey through these carefully crafted performances and original compositions.
+                </p>
+                <div class="video-divider"></div>
+            </div>
+
+            <div class="video-grid">
+                <div class="video-card" data-url="https://www.youtube.com/watch?v=DHRTBc3J624">
+                    <div class="video-thumbnail">
+                        <img src="https://img.youtube.com/vi/DHRTBc3J624/maxresdefault.jpg" alt="Original Music Video">
+                        <div class="video-overlay"></div>
+                        <div class="video-play-btn">▶️</div>
+                        <div class="video-external-icon">🔗</div>
+                    </div>
+                    <div class="video-content">
+                        <h3>Original Music Video</h3>
+                        <p>Experience Areen's original composition with stunning visuals and captivating melodies.</p>
+                        <div class="video-meta">
+                            <div class="video-watch">👁️ Watch Now</div>
+                            <div class="video-badge">External Link</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <iframe src="https://www.youtube.com/embed/0kWhNVMbTLw?rel=0&modestbranding=1"
+                            title="Flowers - Miley Cyrus Cover" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="video-content">
+                        <h3>Flowers - Miley Cyrus Cover</h3>
+                        <p>A beautiful acoustic rendition of Miley Cyrus's hit song, showcasing Areen's vocal range.</p>
+                        <div class="video-meta">
+                            <div class="video-watch">👁️ Watch Now</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <iframe src="https://www.youtube.com/embed/gsPRAg5IkfE?rel=0&modestbranding=1"
+                            title="Chaleya Cover" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="video-content">
+                        <h3>Chaleya Cover</h3>
+                        <p>An emotional cover that highlights Areen's ability to connect with diverse musical styles.
+                        </p>
+                        <div class="video-meta">
+                            <div class="video-watch">👁️ Watch Now</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-cta">
+                <a href="https://www.youtube.com/@AreenOfficial" target="_blank" class="btn-primary">
+                    ▶️ View All Videos 🔗
+                </a>
+            </div>
+        </div>
+
+        <!-- Background Decorations -->
+        <div class="bg-decoration bg-decoration-1"></div>
+        <div class="bg-decoration bg-decoration-2"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="socials" class="footer">
+        <div class="footer-bg"></div>
+
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-header">
+                    <h2 class="footer-title">Let's Connect</h2>
+                    <p class="footer-subtitle">
+                        Follow the musical journey and stay updated with the latest releases, performances, and
+                        behind-the-scenes content.
+                    </p>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.youtube.com/@AreenOfficial" target="_blank" class="social-link youtube">
+                        📺 YouTube
+                    </a>
+                    <a href="https://www.instagram.com/areenofficial" target="_blank" class="social-link instagram">
+                        📷 Instagram
+                    </a>
+                    <a href="https://twitter.com/areenofficial" target="_blank" class="social-link twitter">
+                        🐦 Twitter
+                    </a>
+                    <a href="https://soundcloud.com/areen" target="_blank" class="social-link soundcloud">
+                        🎵 SoundCloud
+                    </a>
+                </div>
+
+                <div class="footer-bottom">
+                    <p class="copyright">
+                        <span>© 2025 Areen Official. Made with</span>
+                        <span class="heart">❤️</span>
+                        <span>for music lovers</span>
+                    </p>
+                    <p class="footer-tagline">
+                        All rights reserved. Music is the universal language of the soul.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Background Decorations -->
+        <div class="bg-decoration bg-decoration-1"></div>
+        <div class="bg-decoration bg-decoration-2"></div>
+
+        <!-- Floating Elements -->
+        <div class="floating-notes">
+            <div class="floating-note" style="left: 15%; top: 20%;">🎵</div>
+            <div class="floating-note" style="left: 35%; top: 40%;">🎶</div>
+            <div class="floating-note" style="left: 55%; top: 30%;">🎵</div>
+            <div class="floating-note" style="left: 75%; top: 50%;">🎶</div>
+            <div class="floating-note" style="left: 85%; top: 25%;">🎵</div>
+            <div class="floating-note" style="left: 25%; top: 70%;">🎶</div>
+        </div>
+    </footer>
+
+    <script>
+        // Particle Background
+        class ParticleSystem {
+            constructor() {
+                this.canvas = document.getElementById('particle-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.animationId = null;
+
+                this.init();
+                this.animate();
+                this.handleResize();
+            }
+
+            init() {
+                this.resizeCanvas();
+                this.createParticles();
+            }
+
+            resizeCanvas() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+
+            createParticles() {
+                this.particles = [];
+                const particleCount = Math.floor((this.canvas.width * this.canvas.height) / 15000);
+
+                for (let i = 0; i < particleCount; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        vx: (Math.random() - 0.5) * 0.5,
+                        vy: (Math.random() - 0.5) * 0.5,
+                        size: Math.random() * 2 + 1,
+                        opacity: Math.random() * 0.5 + 0.1
+                    });
+                }
+            }
+
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+                this.particles.forEach(particle => {
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+
+                    if (particle.x < 0) particle.x = this.canvas.width;
+                    if (particle.x > this.canvas.width) particle.x = 0;
+                    if (particle.y < 0) particle.y = this.canvas.height;
+                    if (particle.y > this.canvas.height) particle.y = 0;
+
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    this.ctx.fillStyle = `rgba(255, 105, 180, ${particle.opacity})`;
+                    this.ctx.fill();
+                });
+
+                this.animationId = requestAnimationFrame(() => this.animate());
+            }
+
+            handleResize() {
+                window.addEventListener('resize', () => {
+                    this.resizeCanvas();
+                    this.createParticles();
+                });
+            }
+
+            destroy() {
+                if (this.animationId) {
+                    cancelAnimationFrame(this.animationId);
+                }
+            }
+        }
+
+        // Header Scroll Effect
+        class HeaderController {
+            constructor() {
+                this.header = document.getElementById('header');
+                this.mobileMenuBtn = document.getElementById('mobile-menu-btn');
+                this.mobileMenu = document.getElementById('mobile-menu');
+
+                this.init();
+            }
+
+            init() {
+                this.handleScroll();
+                this.handleMobileMenu();
+                this.handleNavigation();
+            }
+
+            handleScroll() {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 50) {
+                        this.header.classList.add('scrolled');
+                    } else {
+                        this.header.classList.remove('scrolled');
+                    }
+                });
+            }
+
+            handleMobileMenu() {
+                this.mobileMenuBtn.addEventListener('click', () => {
+                    this.mobileMenu.classList.toggle('active');
+                });
+
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!this.header.contains(e.target)) {
+                        this.mobileMenu.classList.remove('active');
+                    }
+                });
+            }
+
+            handleNavigation() {
+                // Smooth scroll for navigation links
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const target = document.querySelector(anchor.getAttribute('href'));
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth' });
+                            this.mobileMenu.classList.remove('active');
+                        }
+                    });
+                });
+            }
+        }
+
+        // Intersection Observer for Animations
+        class AnimationController {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.createObserver();
+                this.observeElements();
+            }
+
+            createObserver() {
+                this.observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('visible');
+                            }
+                        });
+                    },
+                    { threshold: 0.1 }
+                );
+            }
+
+            observeElements() {
+                const elements = document.querySelectorAll(
+                    '.video-header, .video-card, .video-cta, .footer-main, .newsletter, .footer-bottom'
+                );
+
+                elements.forEach(el => {
+                    this.observer.observe(el);
+                });
+            }
+        }
+
+        // Video Card Interactions
+        class VideoController {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.handleVideoClicks();
+            }
+
+            handleVideoClicks() {
+                document.querySelectorAll('.video-card[data-url]').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const url = card.getAttribute('data-url');
+                        if (url) {
+                            window.open(url, '_blank');
+                        }
+                    });
+                });
+            }
+        }
+
+        // Newsletter Subscription
+        class NewsletterController {
+            constructor() {
+                this.form = document.querySelector('.newsletter-form');
+                this.input = document.querySelector('.newsletter-input');
+                this.button = document.querySelector('.newsletter-btn');
+
+                this.init();
+            }
+
+            init() {
+                if (this.form) {
+                    this.handleSubmission();
+                }
+            }
+
+            handleSubmission() {
+                this.form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+
+                    const email = this.input.value.trim();
+                    if (this.validateEmail(email)) {
+                        this.showSuccess();
+                        this.input.value = '';
+                    } else {
+                        this.showError();
+                    }
+                });
+
+                this.button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.form.dispatchEvent(new Event('submit'));
+                });
+            }
+
+            validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+
+            showSuccess() {
+                const originalText = this.button.textContent;
+                this.button.textContent = 'Subscribed! ✓';
+                this.button.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+
+                setTimeout(() => {
+                    this.button.textContent = originalText;
+                    this.button.style.background = 'linear-gradient(135deg, #ff69b4, #8a2be2)';
+                }, 2000);
+            }
+
+            showError() {
+                this.input.style.borderColor = '#ef4444';
+                this.input.style.boxShadow = '0 0 0 2px rgba(239, 68, 68, 0.2)';
+
+                setTimeout(() => {
+                    this.input.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                    this.input.style.boxShadow = 'none';
+                }, 2000);
+            }
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize all controllers
+            const particleSystem = new ParticleSystem();
+            const headerController = new HeaderController();
+            const animationController = new AnimationController();
+            const videoController = new VideoController();
+            const newsletterController = new NewsletterController();
+
+            // Cleanup on page unload
+            window.addEventListener('beforeunload', () => {
+                particleSystem.destroy();
+            });
+
+            // Add loading animation
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Performance optimization
+        let ticking = false;
+
+        function updateOnScroll() {
+            // Throttle scroll events for better performance
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', updateOnScroll);
+    </script>
+</body>
+
+</html>
